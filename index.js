@@ -59,7 +59,7 @@ async function processDirectory(lang, dir) {
 async function processSingleFile(baseName, lang, dir) {
   const flacFile = path.join(dir, `${baseName}.flac`);
   const jpgFile = path.join(dir, `${baseName}.jpg`);
-  const lycFile = path.join(dir, `${baseName}.lyc`);
+  const lycFile = path.join(dir, `${baseName}.lrc`);
   const outputFile = path.join(dir, `${baseName}.m4a`);
 
   if (fs.existsSync(flacFile) && fs.existsSync(jpgFile) && fs.existsSync(lycFile)) {
@@ -101,7 +101,7 @@ function runFfmpeg(flacFile, jpgFile, lycFile, outputFile, lang) {
     });
 
     ffmpeg.on('error', (err) => {
-      console.error(chalk.red(`  ✗ Failed to start FFmpeg for ${path.basename(flacFile)}`), err);
+      console.error(chalk.red(`Failed to start FFmpeg for ${path.basename(flacFile)}`), err);
       reject(err);
     });
   });

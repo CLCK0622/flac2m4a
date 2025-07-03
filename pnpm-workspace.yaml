@@ -1,0 +1,2 @@
+onlyBuiltDependencies:
+  - ffmpeg-static
