@@ -1,13 +1,12 @@
 {
   "name": "flac2m4a",
   "version": "1.1.0",
-  "description": "A CLI tool to combine .flac, .jpg, and .lyc files into a single Apple Lossless (.m4a) file.",
+  "description": "A CLI tool to combine .flac, .jpg, and .lrc files into a single Apple Lossless (.m4a) file.",
   "main": "index.js",
   "bin": {
     "flac2m4a": "./index.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "ffmpeg",
