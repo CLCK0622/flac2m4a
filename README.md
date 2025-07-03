@@ -73,3 +73,7 @@ pnpm dlx flac2m4a --help
 [**网易云音乐 API**](https://api.toubiec.cn/wyapi.html)
 
 你可以通过这个 API 获取直接配合本工具使用的音乐文件。
+
+## 致谢
+
+![Alt](https://repobeats.axiom.co/api/embed/323f7919c3bca40a07c7ea719ea5d2fa2be6d308.svg "Repobeats analytics image")
