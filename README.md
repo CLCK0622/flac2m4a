@@ -1,3 +1,5 @@
+![flac2m4a](https://socialify.git.ci/CLCK0622/flac2m4a/image?font=Bitter&forks=1&language=1&name=1&owner=1&pattern=Floating+Cogs&stargazers=1&theme=Auto)
+
 # flac2m4a 音频合并工具
 
 这是一个命令行工具，用于将 `.flac` 音频文件、`.jpg` 封面图片和 `.lrc` 歌词文件合并成一个带有内嵌封面和歌词的 Apple Lossless (`.m4a`) 文件。
