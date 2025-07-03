@@ -1,6 +1,6 @@
 {
   "name": "flac2m4a",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A CLI tool to combine .flac, .jpg, and .lrc files into a single Apple Lossless (.m4a) file.",
   "main": "index.js",
   "bin": {

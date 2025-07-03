@@ -2,39 +2,68 @@
 
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
+const { spawn, execFileSync } = require('child_process');
 const chalk = require('chalk');
 const ffmpegPath = require('ffmpeg-static');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 
+function ensureFfmpegIsAvailable() {
+  if (fs.existsSync(ffmpegPath)) {
+    return true;
+  }
+
+  console.log(chalk.yellow('FFmpeg binary not found. Attempting to download it now...'));
+  console.log(chalk.yellow('This may take a moment.'));
+
+  try {
+    const ffmpegStaticDir = path.dirname(require.resolve('ffmpeg-static/package.json'));
+    const installScript = path.join(ffmpegStaticDir, 'install.js');
+
+    execFileSync('node', [installScript], { stdio: 'inherit' });
+
+    console.log(chalk.green('FFmpeg downloaded successfully.'));
+    return true;
+  } catch (error) {
+    console.error(chalk.red('Failed to download FFmpeg automatically.'), error);
+    console.error(chalk.red('Please check your network connection or try installing FFmpeg manually.'));
+    return false;
+  }
+}
+
+
 const argv = yargs(hideBin(process.argv))
-  .usage('Usage: $0 [basename] [options]')
-  .command('$0 [basename]', 'Converts files. If basename is provided, converts a specific set. Otherwise, scans the directory.', (yargs) => {
-    yargs.positional('basename', {
-      describe: 'The base name of the files to process (e.g., "song1" for "song1.flac")',
+    .usage('Usage: $0 [basename] [options]')
+    .command('$0 [basename]', 'Converts files. If basename is provided, converts a specific set. Otherwise, scans the directory.', (yargs) => {
+      yargs.positional('basename', {
+        describe: 'The base name of the files to process (e.g., "song1" for "song1.flac")',
+        type: 'string',
+      });
+    })
+    .option('lang', {
+      alias: 'l',
+      describe: 'The 3-letter language code for the lyrics metadata',
       type: 'string',
-    });
-  })
-  .option('lang', {
-    alias: 'l',
-    describe: 'The 3-letter language code for the lyrics metadata',
-    type: 'string',
-    default: 'chi',
-  })
-  .help()
-  .alias('help', 'h')
-  .argv;
+      default: 'chi',
+    })
+    .help()
+    .alias('help', 'h')
+    .argv;
 
 async function main() {
+  const isFfmpegReady = ensureFfmpegIsAvailable();
+  if (!isFfmpegReady) {
+    process.exit(1);
+  }
+
   const { basename, lang } = argv;
   const currentDir = process.cwd();
 
   if (basename) {
-    console.log(chalk.cyan(`Manual mode: Processing files for base name "${basename}"`));
+    console.log(chalk.cyan(`\nManual mode: Processing files for base name "${basename}"`));
     await processSingleFile(basename, lang, currentDir);
   } else {
-    console.log(chalk.cyan(`Automatic mode: Scanning for files in: ${currentDir}\n`));
+    console.log(chalk.cyan(`\nAutomatic mode: Scanning for files in: ${currentDir}`));
     await processDirectory(lang, currentDir);
   }
 
